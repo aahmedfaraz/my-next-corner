@@ -43,3 +43,7 @@ In Next.js we create pages using the integrated `file system routing`. Pages exi
   - `pages/blog/[slug].js` is associated with the `/blog/:slug` (`/blog/hello-world`) route.
   - `pages/[username]/settings.js` is associated with the `/:username/settings` (`/foo/settings`) route.
   - `pages/post/[...all].js` is associated with the `/post/*` (`/post/2020/id/title`) route.
+
+When linking between pages on websites, you use the `<a>` HTML tag.
+
+In Next.js, you use the `Link` Component from `next/link` to wrap the `<a>` tag. `<Link>` allows you to do client-side navigation to a different page in the application.
