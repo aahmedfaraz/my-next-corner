@@ -47,3 +47,108 @@ In Next.js we create pages using the integrated `file system routing`. Pages exi
 When linking between pages on websites, you use the `<a>` HTML tag.
 
 In Next.js, you use the `Link` Component from `next/link` to wrap the `<a>` tag. `<Link>` allows you to do client-side navigation to a different page in the application.
+
+Next.js automatically **optimizes** your application for the best performance by `code splitting`, `client-side navigation`, and `prefetching` (in production).
+
+## Static Assets, Metadata, and CSS
+
+- Next.js can serve **static assets**, like images, under the top-level `public` directory. Files inside `public` can be referenced from the root of the application similar to `pages`.
+
+- What if we wanted to modify the metadata of the page, such as the `<title>` HTML tag?. You can import the `Head` component from the `next/head` module.
+
+- We can use `CSS Modules` anywhere, but `Global CSS` only in `pages/_app.js`.
+
+- To use `Tailwind CSS`, we can customize `PostCSS`(Next.js compiles CSS using PostCSS) configurations.
+- To customize `PostCSS config`, you can create a **top-level** file called `postcss.config.js`. This is useful if you’re using libraries like `Tailwind CSS`.
+- Here are the steps to add `Tailwind CSS`. We recommend using `postcss-preset-env` and `postcss-flexbugs-fixes` to match **Next.js’s default behavior**. First, install the packages:
+
+```powershell
+yarn add tailwindcss postcss-preset-env postcss-flexbugs-fixes
+```
+
+- Then write the following for `postcss.config.js`:
+
+```js
+module.exports = {
+  plugins: [
+    "tailwindcss",
+    "postcss-flexbugs-fixes",
+    [
+      "postcss-preset-env",
+      {
+        autoprefixer: {
+          flexbox: "no-2009",
+        },
+        stage: 3,
+        features: {
+          "custom-properties": false,
+        },
+      },
+    ],
+  ],
+};
+```
+
+- We also recommend **removing unused CSS** by specifying the `purge` option on `tailwind.config.js`:
+
+```js
+// tailwind.config.js
+module.exports = {
+  purge: [
+    // Use *.tsx if using TypeScript
+    "./pages/**/*.js",
+    "./components/**/*.js",
+  ],
+  // ...
+};
+```
+
+- To learn more about custom `PostCSS configuration`, check out the [documentation for PostCSS](https://nextjs.org/docs/advanced-features/customizing-postcss-config).
+- NextJs also supports `Sass`
+
+```powershell
+yarn add sass
+```
+
+# Out of the Box
+
+## classnames
+
+`classnames` library to toggle classes
+
+- You can install it using
+
+```powershell
+yarn add classnames
+```
+
+- You can first write a CSS module like this:
+
+```css
+.success {
+  color: green;
+}
+.error {
+  color: red;
+}
+```
+
+- And use `classnames` like this:
+
+```js
+import styles from "./alert.module.css";
+import cn from "classnames";
+
+export default function Alert({ children, type }) {
+  return (
+    <div
+      className={cn({
+        [styles.success]: type === "success",
+        [styles.error]: type === "error",
+      })}
+    >
+      {children}
+    </div>
+  );
+}
+```
